@@ -94,7 +94,7 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
     }
    }
   );
-  /** Insert tour end */
+  /** Insert tour en */
 
 
 
