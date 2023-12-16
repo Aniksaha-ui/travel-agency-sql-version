@@ -25,20 +25,18 @@ router.post("/",auth.authenticationToken,checkRole.checkRole,
          query = await tourService.fetchToursById(tourId);
       } else if(tourId!=='' && action==='delete'){
         query = await tourService.deleteToursById(tourId); //delete
-        if(query===0){
-            response.message ="No data found"
-        }else{
-            response.message ="Deleted Successfully"
-        }
-        response.data = query;
-        response.isExecute = true; 
-        res.send(response);
-
-      } else if(tourId!=='' && action==='update'){
-        query = await tourService.updateToursById(tourId,data);
-      }else{
+       } else{
          query = await tourService.fetchTours(); // fetch all
       }
+      
+      //for delete
+      if(query === 0 || 1){
+        response.data = query;
+        response.isExecute = true; 
+        response.message = query===0 ? "No data found" : "Data deleted successfully"
+        res.send(response);
+      }
+      //for delete end
 
       //for single and fetch all
       if (query.length > 0) {
