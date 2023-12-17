@@ -37,10 +37,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true
     },
+    starting_date: {  
+      type: DataTypes.DATE,
+      allowNull: true
+   },
+    end_date: {  
+      type: DataTypes.DATE,
+      allowNull: true
+   },
+   day:{
+    type: DataTypes.INTEGER,
+   },
     status: {
         type: DataTypes.STRING,
         allowNull: true,
-        default: "A"
+        default: "upcomeing"
       }
     });
     return Tour;

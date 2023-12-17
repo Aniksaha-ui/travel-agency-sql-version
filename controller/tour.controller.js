@@ -7,6 +7,7 @@ const auth = require("../auth/authentication");
 const checkRole = require("../auth/checkRole");
 const responseFormat = require("../common/response");
 const tourService = require("../services/tours.service");
+const bookingService = require("../services/booking.service");
 const e = require("express");
 
 
@@ -22,7 +23,7 @@ router.post("/",auth.authenticationToken,checkRole.checkRole,
       const response = responseFormat;
       let query;
       if(tourId!=='' && action==='singledata'){
-         query = await tourService.fetchToursById(tourId);
+         query = await tourService.fetchToursById(tourId); // get by id
       } else if(tourId!=='' && action==='delete'){
         query = await tourService.deleteToursById(tourId); //delete
        } else{
@@ -69,10 +70,8 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
         let action = req.body.action;
         if(action==='insert'){
              query = tourService.insertNewTour(data);
-             console.log("1")
         }else {
              query = tourService.insertNewTour(data);
-             console.log("2");
         }
         if (query) {
             response.data = data;
@@ -95,10 +94,36 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
   /** Insert tour en */
 
 
+  /** booking a tour */
+  router.post("/booking",auth.authenticationToken,checkRole.checkRole, async (req, res) => {
+    try{
+      const response = responseFormat;
+      let query;
+        let data = req.body;
+        const {tour,person,seat,hotel,userId} = data;
+        const lastInserted = await tourService.insertBooking(tour,userId,seat);
+        const personInformation = await bookingService.insertIntoBookingPerson(person,lastInserted,tour.tourId,userId);
+        const insertIntoHotel = await bookingService.insertIntoHotel(tour.tourId,userId,lastInserted,hotel);
+        const totalCosting = {
+          tour_costing : tour.cost,
+          hotel_costing : hotel.cost,
+          total_costing : parseInt(tour.cost) + parseInt(hotel.cost)
+        }
+        const insertIntoTotalCosting = await bookingService.insertTotalCosting(tour.tourId,userId,lastInserted,totalCosting);
 
+        res.send({isExecute: true, message: "Thanks for booking",data:{}});
 
+        // console.log(tour,"Tour");
+        // console.log(person,"persons info");
+        // console.log(seat,"seat info");
+        // console.log(hotel,"hotel info");
+        // console.log(userId,"userId");
 
-
+    }catch(err){
+        console.log(err)
+    }
+   }
+  );
 
 
 

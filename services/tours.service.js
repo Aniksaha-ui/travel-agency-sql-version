@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("../model");
 const Tour = db.tour;
+const Booking = db.bookings;
 require("dotenv").config();
 
 /** get all tour */
@@ -33,12 +34,27 @@ const deleteToursById = async (id) =>{
 const updateToursById = async (id,data)=>{
 }
 
+
+/** booking tour */
+const insertBooking = async(tour,userId,seat)=>{
+  const tourInfo = {
+    ...tour,
+    userId,
+    seat
+  }
+  const createdRecord = await Booking.create(tourInfo);
+  const lastInsertedId = createdRecord.id;
+  return lastInsertedId;
+}
+
+
 const tourService = {
     fetchTours,
     fetchToursById,
     insertNewTour,
     deleteToursById,
-    updateToursById
+    updateToursById,
+    insertBooking
 };
 
 module.exports = tourService;
