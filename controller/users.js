@@ -34,7 +34,8 @@ router.post("/login", async (req, res) => {
       [Op.and]: [{ email: req.body.email }, { password: req.body.password }],
     },
   });
-
+  
+  
   //console.log(existUser[0].email, "length");
   if (existUser.length > 0) {
     //console.log(existUser[0].status, "111");
@@ -43,7 +44,7 @@ router.post("/login", async (req, res) => {
       const accessToken = jwt.sign(response, process.env.ACCESS_TOKEN, {
         expiresIn: "8h",
       });
-      res.status(200).send({ accessToken: accessToken });
+      res.status(200).send({data: existUser[0], accessToken: accessToken });
     } else {
       res
         .status(401)
