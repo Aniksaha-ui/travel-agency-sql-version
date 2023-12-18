@@ -4,6 +4,7 @@ const connection = require("./connection");
 const userController = require("./controller/users");
 const categoryController = require("./controller/categories.controller");
 const tourController = require("./controller/tour.controller");
+const transectionController = require("./controller/transection.controller");
 
 const app = express();
 
@@ -35,5 +36,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/user", userController);
 app.use("/category", categoryController);
 app.use("/tour", tourController);
+app.use("/transection", transectionController);
 
 module.exports = app;

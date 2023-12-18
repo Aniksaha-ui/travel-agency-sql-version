@@ -8,6 +8,7 @@ const checkRole = require("../auth/checkRole");
 const responseFormat = require("../common/response");
 const tourService = require("../services/tours.service");
 const bookingService = require("../services/booking.service");
+const transectionService = require("../services/transection.service");
 const e = require("express");
 
 
@@ -100,25 +101,19 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
       const response = responseFormat;
       let query;
         let data = req.body;
-        const {tour,person,seat,hotel,userId} = data;
+        const {tour,person,seat,hotel,userId,transection} = data;
         const lastInserted = await tourService.insertBooking(tour,userId,seat);
         const personInformation = await bookingService.insertIntoBookingPerson(person,lastInserted,tour.tourId,userId);
         const insertIntoHotel = await bookingService.insertIntoHotel(tour.tourId,userId,lastInserted,hotel);
         const totalCosting = {
           tour_costing : tour.cost,
           hotel_costing : hotel.cost,
-          total_costing : parseInt(tour.cost) + parseInt(hotel.cost)
+          total_costing : parseInt(tour.cost)*(seat) + parseInt(hotel.cost)
         }
         const insertIntoTotalCosting = await bookingService.insertTotalCosting(tour.tourId,userId,lastInserted,totalCosting);
+        const insertIntoTransection = await transectionService.insertTransection(transection,userId,tour.tourId);
 
         res.send({isExecute: true, message: "Thanks for booking",data:{}});
-
-        // console.log(tour,"Tour");
-        // console.log(person,"persons info");
-        // console.log(seat,"seat info");
-        // console.log(hotel,"hotel info");
-        // console.log(userId,"userId");
-
     }catch(err){
         console.log(err)
     }

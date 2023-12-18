@@ -36,6 +36,7 @@ db.bookings = require("./bookingModel.js")(sequelize, DataTypes);
 db.bookingPersons = require("./bookingpersonsModel.js")(sequelize, DataTypes);
 db.bookingHotel = require("./bookinghotelModel.js")(sequelize, DataTypes);
 db.bookingCosting = require("./bookingcostingModel.js")(sequelize, DataTypes);
+db.transection = require("./transectionModel.js")(sequelize, DataTypes);
 
 // db.reviews = require("./reviewModel.js")(sequelize, DataTypes);
 
