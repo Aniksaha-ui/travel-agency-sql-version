@@ -19,8 +19,6 @@ router.post("/",auth.authenticationToken,checkRole.checkRole,
       const data = req.body;
       const tourId = req.body.id ? req.body.id : '';
       const action = req.body.action;
-      console.log(tourId,"id");
-      console.log(action,"action");
       const response = responseFormat;
       let query;
       if(tourId!=='' && action==='singledata'){
@@ -120,6 +118,20 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
    }
   );
 
-
+  /** tourwise profit report */
+  router.get("/profit",auth.authenticationToken,checkRole.checkRole, async (req, res) => {
+    try{
+      const response = responseFormat;
+      let query;
+      const result = await tourService.tourWiseProfit();
+      if(result.length>0){
+        res.send({isExecute: true, message: "Tour wise profit",data:result});
+      }
+      res.send({isExecute: true, message: "No data found",data:result});
+    }catch(err){
+        console.log(err)
+    }
+   }
+  );
 
 module.exports = router;

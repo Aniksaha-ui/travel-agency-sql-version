@@ -3,6 +3,8 @@ const db = require("../model");
 const Tour = db.tour;
 const Booking = db.bookings;
 require("dotenv").config();
+const { QueryTypes } = require('sequelize');
+
 
 /** get all tour */
 const fetchTours = async () => {
@@ -47,6 +49,12 @@ const insertBooking = async(tour,userId,seat)=>{
   return lastInsertedId;
 }
 
+/** tour wise profit */
+const tourWiseProfit = async()=>{
+  const result = await db.sequelize.query("SELECT tours.tour_name,bookings.tourId,SUM(bookings.cost*bookings.seat) as total_costing, SUM(bookings.orginal_cost*bookings.seat) as total_orginal_costing, SUM(bookings.cost*bookings.seat) - SUM(bookings.orginal_cost*bookings.seat) as Profit FROM bookings JOIN tours WHERE bookings.tourId = tours.id GROUP BY tours.tour_name,bookings.tourId", { type: QueryTypes.SELECT });
+    return result;
+}
+
 
 const tourService = {
     fetchTours,
@@ -54,7 +62,8 @@ const tourService = {
     insertNewTour,
     deleteToursById,
     updateToursById,
-    insertBooking
+    insertBooking,
+    tourWiseProfit
 };
 
 module.exports = tourService;
