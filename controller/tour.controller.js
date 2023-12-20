@@ -134,4 +134,23 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
    }
   );
 
+  /** tour search */
+  router.post("/search",auth.authenticationToken,checkRole.checkRole, async (req, res) => {
+    try{
+      const response = responseFormat;
+      const data = {
+        tourName: req.body.tourName ? req.body.tourName : ''
+      }
+      let query;
+      const result = await tourService.searchByName(data);
+      if(result.length>0){
+        res.send({isExecute: true, message: "Search Result",data:result});
+      }
+      res.send({isExecute: true, message: "No data found",data:result});
+    }catch(err){
+        console.log(err)
+    }
+   }
+  );
+
 module.exports = router;

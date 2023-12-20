@@ -55,6 +55,14 @@ const tourWiseProfit = async()=>{
     return result;
 }
 
+const searchByName = async(data) =>{
+  const searchTerm = `%${data.tourName}%`;
+  const result = await db.sequelize.query('SELECT tour_name FROM tours WHERE tour_name LIKE :searchTerm;',{
+    replacements: { searchTerm },
+    type: db.sequelize.QueryTypes.SELECT
+  });
+  return result;
+}
 
 const tourService = {
     fetchTours,
@@ -63,7 +71,8 @@ const tourService = {
     deleteToursById,
     updateToursById,
     insertBooking,
-    tourWiseProfit
+    tourWiseProfit,
+    searchByName
 };
 
 module.exports = tourService;
