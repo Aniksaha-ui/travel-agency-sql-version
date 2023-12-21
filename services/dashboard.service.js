@@ -21,8 +21,8 @@ const fetchDashboardInformation = async () => {
     return result;
 };
 
-const categoryService = {
+const dashboardService = {
   fetchDashboardInformation,
 };
 
-module.exports = categoryService;
+module.exports = dashboardService;
