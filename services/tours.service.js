@@ -26,6 +26,15 @@ const insertNewTour = async (data)=>{
     return insert; 
 }
 
+/**update tour */
+const updateTour = async(data,id)=>{
+  const update = await Tour.update({data},{
+    where:{id:id}
+  });
+  return update;
+}
+
+
 /** delete tour */
 const deleteToursById = async (id) =>{
   const result = await Tour.destroy({ where: { id: id } });
@@ -68,6 +77,7 @@ const tourService = {
     fetchTours,
     fetchToursById,
     insertNewTour,
+    updateTour,
     deleteToursById,
     updateToursById,
     insertBooking,

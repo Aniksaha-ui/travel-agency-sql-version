@@ -66,21 +66,22 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
       const response = responseFormat;
       let query;
         let data = req.body;
+        console.log(req.body)
         let action = req.body.action;
         if(action==='insert'){
              query = tourService.insertNewTour(data);
         }else {
-             query = tourService.insertNewTour(data);
+             query = tourService.updateTour(data,data.id);
         }
         if (query) {
             response.data = data;
             response.isExecute= true;
-            response.message=`${data.tour_name} is inserted successfully`;
+            response.message=`${data.tour_name} is ${data.action} successfully`;
           res.send(response);
         } else {
           response.data = data;
           response.isExecute= true;
-          response.message=`${data.tour_name} can not be inserted`;
+          response.message=`${data.tour_name} can not be ${data.action}`;
           res.send(response);
         }
     }catch(err){
