@@ -7,6 +7,7 @@ const tourController = require("./controller/tour.controller");
 const transectionController = require("./controller/transection.controller");
 const dashboardController =require("./controller/dashboard.controller");
 const hotelController =require("./controller/hotel.controller");
+const bookingController =require("./controller/booking.controller");
 const app = express();
 
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -40,4 +41,5 @@ app.use("/tour", tourController);
 app.use("/transection", transectionController);
 app.use("/dashboard", dashboardController);
 app.use("/hotel", hotelController);
+app.use("/booking", bookingController);
 module.exports = app;
