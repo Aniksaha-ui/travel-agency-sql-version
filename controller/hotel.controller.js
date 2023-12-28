@@ -13,7 +13,6 @@ const e = require("express");
   /** dashboard data report */
   router.get("/commision", auth.authenticationToken,checkRole.checkRole,async (req, res) => {
     try{
-      let query;
       const result = await hotelService.fetchHotelCommisionInformation();
       res.send({isExecute: true, message: "Hotel Commision Information",data:result});
     }catch(err){
