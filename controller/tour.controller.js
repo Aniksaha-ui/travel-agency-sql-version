@@ -12,56 +12,37 @@ const transectionService = require("../services/transection.service");
 const e = require("express");
 
 
-/** get all tour and find by id */
-router.post("/",auth.authenticationToken,checkRole.checkRole,
-  async (req, res) => {
-    try {
-      const data = req.body;
-      const tourId = req.body.id ? req.body.id : '';
-      const action = req.body.action;
-      const response = responseFormat;
-      let query;
-      if(tourId!=='' && action==='singledata'){
-         query = await tourService.fetchToursById(tourId); // get by id
-      } else if(tourId!=='' && action==='delete'){
-        query = await tourService.deleteToursById(tourId); //delete
-       } else{
-         query = await tourService.fetchTours(); // fetch all
-      }
-      
-      //for delete
-      if(query === 0 || 1){
-        response.data = query;
-        response.isExecute = true; 
-        response.message = query===0 ? "No data found" : "Data deleted successfully"
-        res.send(response);
-      }
-      //for delete end
+  /** get all tour and find by id */
+  router.post("/",auth.authenticationToken,checkRole.checkRole,
+    async (req, res) => {
+      try {
+        const data = req.body;
+        const response = responseFormat;
+        let query;
+        query = await tourService.fetchTours(); // fetch all
+        //for single and fetch all
+        if (query.length > 0) {
+          response.isExecute = true;
+          response.data = query;
+          response.message = "Data rerive successfully";
+          res.send(response);
+        } else {
+          response.isExecute = false;
+          response.data = "";
+          response.message = "No Data Found";
+          res.send(response);
+        }
+        //for single and fetch all
 
-      //for single and fetch all
-      if (query.length > 0) {
-        response.isExecute = true;
-        response.data = query;
-        response.message = "Data rerive successfully";
-        res.send(response);
-      } else {
-        response.isExecute = false;
-        response.data = "";
-        response.message = "No Data Found";
-        res.send(response);
+      } catch (err) {
+        res.send({ isExecute: false, message: "Internal Server error" });
       }
-      //for single and fetch all
-
-    } catch (err) {
-      res.send({ isExecute: false, message: "Internal Server error" });
     }
-  }
-);
-/** get all tour end*/
+  );
+  /** get all tour end*/
 
-
-/** Insert tour */
-router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, res) => {
+  /** Insert tour */
+  router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, res) => {
     try{
       const response = responseFormat;
       let query;
@@ -69,9 +50,9 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
         console.log(req.body)
         let action = req.body.action;
         if(action==='insert'){
-             query = tourService.insertNewTour(data);
+              query = tourService.insertNewTour(data);
         }else {
-             query = tourService.updateTour(data,data.id);
+              query = tourService.updateTour(data,data.id);
         }
         if (query) {
             response.data = data;
@@ -89,10 +70,8 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
         response.message=err;
         res.send(response);
     }
-   }
+    }
   );
-  /** Insert tour en */
-
 
   /** booking a tour */
   router.post("/booking",auth.authenticationToken,checkRole.checkRole, async (req, res) => {
@@ -111,7 +90,6 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
         }
         const insertIntoTotalCosting = await bookingService.insertTotalCosting(tour.tourId,userId,lastInserted,totalCosting);
         const insertIntoTransection = await transectionService.insertTransection(transection,userId,tour.tourId);
-
         res.send({isExecute: true, message: "Thanks for booking",data:{}});
     }catch(err){
         console.log(err)
@@ -153,5 +131,51 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole, async (req, 
     }
    }
   );
+
+  /** get single tour */
+  
+  /** get single tour */
+  router.get("/:id",auth.authenticationToken,checkRole.checkRole,async(req,res)=>{
+    try{
+        const response = responseFormat;
+        const id = req.params.id;
+        query = await tourService.fetchToursById(id); 
+        if (query.length > 0) {
+          response.isExecute = true;
+          response.data = query;
+          response.message = "Data retrive successfully";
+          res.status(200).json(response);
+        } else {
+          response.isExecute = false;
+          response.data = "";
+          response.message = "No Data Found";
+          res.status(200).json(response);
+        }
+    }catch(err){
+      res.status(500).json({ isExecute: false, message: "Internal Server error" });
+    }
+  })
+
+  /** delete tour */
+  router.delete("/:id",auth.authenticationToken,checkRole.checkRole,async(req,res)=>{
+    try{
+        const response = responseFormat;
+        const id = req.params.id;
+        query = await tourService.deleteToursById(id); 
+      if(query===1){
+        response.isExecute = true;
+        response.data = query;
+        response.message = "Data deleted Successfully";
+        res.status(200).json(response);
+      }else {
+        response.isExecute = false;
+        response.data = "";
+        response.message = "No data found";
+        res.status(200).json(response);
+      }
+    }catch(err){
+      res.status(500).json({ isExecute: false, message: "Internal Server error" });
+    }
+  })
 
 module.exports = router;

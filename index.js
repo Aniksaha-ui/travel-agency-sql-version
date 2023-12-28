@@ -40,5 +40,4 @@ app.use("/tour", tourController);
 app.use("/transection", transectionController);
 app.use("/dashboard", dashboardController);
 app.use("/hotel", hotelController);
-
 module.exports = app;

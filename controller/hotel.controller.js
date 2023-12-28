@@ -30,9 +30,9 @@ const e = require("express");
         let data = req.body;
         let action = req.body.action;
         if(action==='insert'){
-             query = hotelService.insertNewHotel(data);
+              query = hotelService.insertNewHotel(data);
         }else {
-             query = hotelService.updateHotel(data,data.id);
+              query = hotelService.updateHotel(data,data.id);
         }
         if (query) {
             response.data = data;
@@ -50,15 +50,81 @@ const e = require("express");
         response.message=err;
         res.send(response);
     }
-   }
+    }
   );
 
+    /** get all hotel and find by id */
+  router.post("/",auth.authenticationToken,checkRole.checkRole,
+  async (req, res) => {
+    try {
+      const response = responseFormat;
+      let query;
+      query = await hotelService.fetchHotel(); 
+      //for single and fetch all
+      if (query.length > 0) {
+        response.isExecute = true;
+        response.data = query;
+        response.message = "Data retrive successfully";
+        res.status(200).json(response);
+      } else {
+        response.isExecute = false;
+        response.data = "";
+        response.message = "No Data Found";
+        res.status(200).json(response);
+      }
+      //for single and fetch all
 
-  /** get all hotel */
-
-
-
-  /** find hotel by Id */
+    } catch (err) {
+      // console.log(err);
+      res.status(200).json({ isExecute: false, message: "Internal Server error" });
+    }
+  }
+  );
+  /** get all tour end*/
   
+  /** get single hotel */
+  router.get("/:id",auth.authenticationToken,checkRole.checkRole,async(req,res)=>{
+    try{
+        const response = responseFormat;
+        const id = req.params.id;
+        query = await hotelService.fetchHotelById(id); 
+        if (query.length > 0) {
+          response.isExecute = true;
+          response.data = query;
+          response.message = "Data retrive successfully";
+          res.status(200).json(response);
+        } else {
+          response.isExecute = false;
+          response.data = "";
+          response.message = "No Data Found";
+          res.status(200).json(response);
+        }
+    }catch(err){
+      res.status(500).json({ isExecute: false, message: "Internal Server error" });
+    }
+  })
+
+  /** delete hotel */
+  router.delete("/:id",auth.authenticationToken,checkRole.checkRole,async(req,res)=>{
+    try{
+        const response = responseFormat;
+        const id = req.params.id;
+        query = await hotelService.deleteHotelById(id); 
+      if(query===1){
+        response.isExecute = true;
+        response.data = query;
+        response.message = "Data deleted Successfully";
+        res.status(200).json(response);
+      }else {
+        response.isExecute = false;
+        response.data = "";
+        response.message = "No data found";
+        res.status(200).json(response);
+      }
+    }catch(err){
+      res.status(500).json({ isExecute: false, message: "Internal Server error" });
+    }
+  })
+
 
 module.exports = router;

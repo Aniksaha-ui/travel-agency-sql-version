@@ -1,6 +1,5 @@
 const express = require("express");
 const db = require("../model");
-const Tour = db.tour;
 const Transection = db.transection;
 require("dotenv").config();
 const { QueryTypes } = require('sequelize');
@@ -16,8 +15,33 @@ const insertNewHotel = async(data)=>{
   return createdRecord;
 }
 
+ /** fetch all hotels */
+ const fetchHotel = async() =>{
+  const hotels = await Hotels.findAll({});
+  return hotels;
+ }
+
+ /** delete hotel  */
+ const deleteHotelById = async(id)=>{
+  const result = await Hotels.destroy({ where: { id: id } });
+  return result;
+ }
+
+ /** fetch hotel by id*/
+ const fetchHotelById = async(id)=>{
+  const hotel = await Hotels.findAll({
+    where: { id: id },
+  });
+  return hotel;
+ }
+
+
+
 const hotelService = {
   fetchHotelCommisionInformation,
-  insertNewHotel
+  insertNewHotel,
+  fetchHotel,
+  deleteHotelById,
+  fetchHotelById
 };
 module.exports = hotelService;
