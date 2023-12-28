@@ -42,11 +42,22 @@ const insertIntoHotel = async(tourId,userId,bookingId,hotelInfo)=>{
       return tourInformation;
     }
 
+
+    const fetchUserTourDetails = async(userId,tourId,bookingId)=>{
+      const tourInformation = await db.sequelize.query(`SELECT tours.tour_name,booking_costings.total_costing,bookings.seat,booking_costings.hotel_costing,booking_costings.tour_costing,bookings.cost*bookings.seat as total_tour_costing,booking_costings.total_costing FROM bookings,tours,booking_costings WHERE bookings.tourId = tours.id AND bookings.tourId = booking_costings.tourId AND bookings.userId=${userId} AND bookings.tourId=${tourId} AND bookings.id=${bookingId}`
+      ,{ type: QueryTypes.SELECT });
+      const hotelInformation = await db.sequelize.query(`SELECT booking_hotels.hotelId,booking_hotels.hotelName,booking_hotels.cost,hotels.hotel_type,hotels.childernSeat,hotels.adultSeat,hotels.totalSeat FROM booking_hotels,hotels WHERE booking_hotels.hotelId = hotels.id AND booking_hotels.tourId=${tourId} AND booking_hotels.bookingId=${bookingId} AND booking_hotels.userId=${userId}`
+      ,{ type: QueryTypes.SELECT });
+      const data = {tour:tourInformation,hotel:hotelInformation}
+      return data;
+    }
+
 const bookingService = {
      insertIntoBookingPerson,
      insertIntoHotel,
      insertTotalCosting,
-     fetchUserHistoryById
+     fetchUserHistoryById,
+     fetchUserTourDetails
 };
 
 module.exports = bookingService;
