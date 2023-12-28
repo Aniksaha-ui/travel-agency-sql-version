@@ -16,7 +16,7 @@ const e = require("express");
 
 
   /** dashboard data report */
-  router.get("/", async (req, res) => {
+  router.get("/", auth.authenticationToken,checkRole.checkRole,async (req, res) => {
     try{
       const response = responseFormat;
       let query;

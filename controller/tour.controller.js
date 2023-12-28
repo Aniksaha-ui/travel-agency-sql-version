@@ -13,7 +13,7 @@ const e = require("express");
 
 
   /** get all tour and find by id */
-  router.post("/",auth.authenticationToken,checkRole.checkRole,
+  router.post("/",auth.authenticationToken,checkRole.checkRoleForUser,
     async (req, res) => {
       try {
         const data = req.body;
@@ -74,7 +74,7 @@ const e = require("express");
   );
 
   /** booking a tour */
-  router.post("/booking",auth.authenticationToken,checkRole.checkRole, async (req, res) => {
+  router.post("/booking",auth.authenticationToken,checkRole.checkRoleForUser, async (req, res) => {
     try{
       const response = responseFormat;
       let query;
@@ -114,7 +114,7 @@ const e = require("express");
   );
 
   /** tour search */
-  router.post("/search",auth.authenticationToken,checkRole.checkRole, async (req, res) => {
+  router.post("/search",auth.authenticationToken,checkRole.checkRoleForUser, async (req, res) => {
     try{
       const response = responseFormat;
       const data = {
@@ -135,7 +135,7 @@ const e = require("express");
   /** get single tour */
   
   /** get single tour */
-  router.get("/:id",auth.authenticationToken,checkRole.checkRole,async(req,res)=>{
+  router.get("/:id",auth.authenticationToken,checkRole.checkRoleForUser,async(req,res)=>{
     try{
         const response = responseFormat;
         const id = req.params.id;

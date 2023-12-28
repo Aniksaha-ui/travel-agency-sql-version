@@ -11,7 +11,7 @@ const hotelService = require("../services/hotel.service");
 const e = require("express");
 
   /** dashboard data report */
-  router.get("/commision", async (req, res) => {
+  router.get("/commision", auth.authenticationToken,checkRole.checkRole,async (req, res) => {
     try{
       let query;
       const result = await hotelService.fetchHotelCommisionInformation();
@@ -54,7 +54,7 @@ const e = require("express");
   );
 
     /** get all hotel and find by id */
-  router.post("/",auth.authenticationToken,checkRole.checkRole,
+  router.post("/",auth.authenticationToken,checkRole.checkRoleForUser,
   async (req, res) => {
     try {
       const response = responseFormat;
@@ -83,7 +83,7 @@ const e = require("express");
   /** get all tour end*/
   
   /** get single hotel */
-  router.get("/:id",auth.authenticationToken,checkRole.checkRole,async(req,res)=>{
+  router.get("/:id",auth.authenticationToken,checkRole.checkRoleForUser,async(req,res)=>{
     try{
         const response = responseFormat;
         const id = req.params.id;
