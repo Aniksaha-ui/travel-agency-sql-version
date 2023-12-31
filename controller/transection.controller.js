@@ -63,6 +63,40 @@ const e = require("express");
   );
 
 
+  /** update transaction */
+  router.post("/update",auth.authenticationToken,checkRole.checkRole,async(req,res)=>{
+    try{
+      const status = req.body.status;
+      const transactionId = req.body.id;
+      const result = await transectionService.updateTransaction(transactionId,status);
+     if(result[0]===1){
+      res.send({isExecute: true, message: "Transaction Information Updated"});
+     }
+     res.send({isExecute: true, message: "No data found"});
+  
+    }catch(err){
+     res.send({isExecute: false, message: "Internal Server Error",data:result});
+
+    }
+  })
+
+
+  /** user transection history */
+  router.post("/my-transaction-history",auth.authenticationToken,checkRole.checkRole,async(req,res)=>{
+    try{
+      const userId = req.body.userId;
+      const result = await transectionService.myTransactionHistoy(userId);
+      console.log(result);
+     if(result.length>0){
+      res.send({isExecute: true, message: "Transaction history",data: result});
+     }  
+     res.send({isExecute: true, message: "No data found"});
+  
+    }catch(err){
+     res.send({isExecute: false, message: "Internal Server Error",data:result});
+
+    }
+  })
 
 
 module.exports = router;

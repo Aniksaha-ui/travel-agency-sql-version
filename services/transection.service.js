@@ -32,11 +32,30 @@ const insertTransection = async(transection,userId,tourId)=>{
     return result;
     }
 
+  const updateTransaction = async(transactionId,status)=>{
+    // console.log(status,transactionId,"st");
+    const result = await Transection.update(
+      { status: status },
+      { where: { id: transactionId } }
+    );
+    return result;
+  }
+
+  /** find specific userId transaction history */
+  const myTransactionHistoy = async(userId)=>{
+    const result = await Transection.findAll({ where: { userId: userId } })
+    return result;
+1  }
+
+
+
 const transectionService = {
     insertTransection,
     pendingTransection,
     approvedTransection,
-    rejectTransection
+    rejectTransection,
+    updateTransaction,
+    myTransactionHistoy
 };
 
 module.exports = transectionService;
