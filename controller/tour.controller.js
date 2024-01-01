@@ -47,7 +47,6 @@ const e = require("express");
       const response = responseFormat;
       let query;
         let data = req.body;
-        console.log(req.body)
         let action = req.body.action;
         if(action==='insert'){
               query = tourService.insertNewTour(data);
