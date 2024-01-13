@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("../model");
 const Tour = db.tour;
 const Booking = db.bookings;
+const Transaction = db.transection;
 require("dotenv").config();
 const { QueryTypes } = require('sequelize');
 
@@ -73,6 +74,14 @@ const searchByName = async(data) =>{
   return result;
 }
 
+const fetchTrasectionByTour = async(tourId)=>{
+  const transactions = await Transaction.findAll({
+    where: { tourId: tourId, status: "A" },
+  });
+  return transactions;
+}
+
+
 const tourService = {
     fetchTours,
     fetchToursById,
@@ -82,7 +91,8 @@ const tourService = {
     updateToursById,
     insertBooking,
     tourWiseProfit,
-    searchByName
+    searchByName,
+    fetchTrasectionByTour
 };
 
 module.exports = tourService;

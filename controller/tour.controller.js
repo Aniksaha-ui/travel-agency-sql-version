@@ -139,14 +139,16 @@ const e = require("express");
         const response = responseFormat;
         const id = req.params.id;
         query = await tourService.fetchToursById(id); 
+        let transections = await tourService.fetchTrasectionByTour(id); 
+
         if (query.length > 0) {
           response.isExecute = true;
-          response.data = query;
+          response.data = {tour:query,transections: transections};
           response.message = "Data retrive successfully";
           res.status(200).json(response);
         } else {
-          response.isExecute = false;
-          response.data = "";
+          response.isExecute = true;
+          response.data = [];
           response.message = "No Data Found";
           res.status(200).json(response);
         }
