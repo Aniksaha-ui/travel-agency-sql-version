@@ -73,6 +73,12 @@ const searchByName = async(data) =>{
   return result;
 }
 
+const updateTourSeat = async(tourId,seat) =>{
+    let transection = await Tour.decrement({available_seat: seat},{where: {id: tourId}});
+    return transection;
+}
+
+
 const tourService = {
     fetchTours,
     fetchToursById,
@@ -82,7 +88,8 @@ const tourService = {
     updateToursById,
     insertBooking,
     tourWiseProfit,
-    searchByName
+    searchByName,
+    updateTourSeat
 };
 
 module.exports = tourService;

@@ -90,6 +90,7 @@ const e = require("express");
         }
         const insertIntoTotalCosting = await bookingService.insertTotalCosting(tour.tourId,userId,lastInserted,totalCosting);
         const insertIntoTransection = await transectionService.insertTransection(transection,userId,tour.tourId);
+        const updateTourSeat = await tourService.updateTourSeat(tour.tourId,seat);
         res.send({isExecute: true, message: "Thanks for booking",data:{}});
     }catch(err){
         console.log(err)
