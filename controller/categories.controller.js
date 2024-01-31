@@ -44,7 +44,7 @@ router.get(
         res.send(response);
       } else {
         response.isExecute = false;
-        response.data = "";
+        response.data = [];
         response.message = "No Data Found";
         res.send(response);
       }

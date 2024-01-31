@@ -6,54 +6,31 @@ require("dotenv").config();
 const auth = require("../auth/authentication");
 const checkRole = require("../auth/checkRole");
 const responseFormat = require("../common/response");
-const hotelService = require("../services/hotel.service");
+const accountService = require("../services/account.service");
 
 const e = require("express");
+const response = responseFormat;
 
-/** dashboard data report */
-router.get(
-  "/commision",
-  auth.authenticationToken,
-  checkRole.checkRole,
-  async (req, res) => {
-    try {
-      const result = await hotelService.fetchHotelCommisionInformation();
-      res.send({
-        isExecute: true,
-        message: "Hotel Commision Information",
-        data: result,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-);
-
-/** new hotel create */
+/** new account create */
 router.post(
   "/create",
   auth.authenticationToken,
   checkRole.checkRole,
   async (req, res) => {
     try {
-      const response = responseFormat;
       let query;
       let data = req.body;
-      let action = req.body.action;
-      if (action === "insert") {
-        query = hotelService.insertNewHotel(data);
-      } else {
-        query = hotelService.updateHotel(data, data.id);
-      }
+
+      query = accountService.newAccount(data);
       if (query) {
         response.data = data;
         response.isExecute = true;
-        response.message = `${req.body.hotel_name} is ${data.action} successfully`;
+        response.message = `${req.body.account_name} is ${data.action} successfully`;
         res.send(response);
       } else {
         response.data = data;
         response.isExecute = true;
-        response.message = `${data.hotel_name} can not be ${data.action}`;
+        response.message = `${data.account_name} can not be ${data.action}`;
         res.send(response);
       }
     } catch (err) {
@@ -64,16 +41,15 @@ router.post(
   }
 );
 
-/** get all hotel and find by id */
+/** get all account and find by id */
 router.post(
   "/",
   auth.authenticationToken,
   checkRole.checkRoleForUser,
   async (req, res) => {
     try {
-      const response = responseFormat;
       let query;
-      query = await hotelService.fetchHotel();
+      query = await accountService.fetchAllAccount();
       //for single and fetch all
       if (query.length > 0) {
         response.isExecute = true;
@@ -97,16 +73,47 @@ router.post(
 );
 /** get all tour end*/
 
-/** get single hotel */
+/** get bankname */
+router.get(
+  "/banknames",
+  auth.authenticationToken,
+  checkRole.checkRoleForUser,
+  async (req, res) => {
+    try {
+      console.log("if");
+      let query;
+      query = await accountService.fetchBankName();
+      //for single and fetch all
+      if (query.length > 0) {
+        response.isExecute = true;
+        response.data = query;
+        response.message = "Data retrive successfully";
+        res.status(200).json(response);
+      } else {
+        response.isExecute = false;
+        response.data = [];
+        response.message = "No Data Found";
+        res.status(200).json(response);
+      }
+      //for single and fetch all
+    } catch (err) {
+      console.log("else");
+      res
+        .status(200)
+        .json({ isExecute: false, message: "Internal Server error" });
+    }
+  }
+);
+
+/** get single account */
 router.get(
   "/:id",
   auth.authenticationToken,
   checkRole.checkRoleForUser,
   async (req, res) => {
     try {
-      const response = responseFormat;
       const id = req.params.id;
-      query = await hotelService.fetchHotelById(id);
+      query = await accountService.fetchAccountById(id);
       if (query.length > 0) {
         response.isExecute = true;
         response.data = query;
@@ -126,16 +133,15 @@ router.get(
   }
 );
 
-/** delete hotel */
+/** delete account */
 router.delete(
   "/:id",
   auth.authenticationToken,
   checkRole.checkRole,
   async (req, res) => {
     try {
-      const response = responseFormat;
       const id = req.params.id;
-      query = await hotelService.deleteHotelById(id);
+      query = await accountService.deleteaccountById(id);
       if (query === 1) {
         response.isExecute = true;
         response.data = query;
@@ -148,9 +154,11 @@ router.delete(
         res.status(200).json(response);
       }
     } catch (err) {
-      res
-        .status(500)
-        .json({ isExecute: false, message: "Internal Server error" });
+      res.status(500).json({
+        isExecute: false,
+        message: "Internal Server error",
+        error: err,
+      });
     }
   }
 );
