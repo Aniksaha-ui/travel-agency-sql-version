@@ -67,6 +67,14 @@ const tourWiseProfit = async () => {
   return result;
 };
 
+const singleTourProfit = async (tourId) => {
+  const result = await db.sequelize.query(
+    `SELECT tours.tour_name,bookings.tourId,SUM(bookings.cost*bookings.seat) as total_costing, SUM(bookings.orginal_cost*bookings.seat) as total_orginal_costing, SUM(bookings.cost*bookings.seat) - SUM(bookings.orginal_cost*bookings.seat) as Profit FROM bookings JOIN tours WHERE bookings.tourId = tours.id GROUP BY tours.tour_name,bookings.tourId AND tourId =${tourId}`,
+    { type: QueryTypes.SELECT }
+  );
+  return result;
+};
+
 const searchByName = async (data) => {
   const searchTerm = `%${data.tourName}%`;
   const result = await db.sequelize.query(
@@ -105,6 +113,7 @@ const tourService = {
   tourWiseProfit,
   searchByName,
   updateTourSeat,
+  singleTourProfit,
   fetchTrasectionByTour,
 };
 

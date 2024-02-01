@@ -21,8 +21,7 @@ router.post(
       const data = req.body;
       const response = responseFormat;
       let query;
-      query = await tourService.fetchTours(); // fetch all
-      //for single and fetch all
+      query = await tourService.fetchTours();
       if (query.length > 0) {
         response.isExecute = true;
         response.data = query;
@@ -34,7 +33,6 @@ router.post(
         response.message = "No Data Found";
         res.send(response);
       }
-      //for single and fetch all
     } catch (err) {
       res.send({ isExecute: false, message: "Internal Server error" });
     }
@@ -174,8 +172,6 @@ router.post(
     }
   }
 );
-
-/** get single tour */
 
 /** get single tour */
 router.get(
