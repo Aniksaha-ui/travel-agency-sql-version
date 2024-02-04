@@ -98,5 +98,23 @@ const e = require("express");
     }
   })
 
+  /*** get single transection information */
+  router.get("/:transectionId",auth.authenticationToken,checkRole.checkRole, async (req, res) => {
+    try{
+      const response = responseFormat;
+      let query;
+      const {transectionId} = req.params;
+      const result = await transectionService.singleTransectionInfo(transectionId);
+      if(result.length>0){
+        res.send({isExecute: true, message: "Single Transection Data",data:result});
+      }
+      res.send({isExecute: true, message: "No data found",data:result});
+
+    }catch(err){
+        console.log(err)
+    }
+   }
+  );
+
 
 module.exports = router;

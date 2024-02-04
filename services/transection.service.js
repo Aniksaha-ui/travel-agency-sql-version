@@ -47,6 +47,11 @@ const insertTransection = async(transection,userId,tourId)=>{
     return result;
 1  }
 
+ /**** find single transection  ***************/
+    const singleTransectionInfo = async(transectionId) =>{
+      const result = await Transection.findAll({ where: { id: transectionId } })
+      return result;
+    }
 
 
 const transectionService = {
@@ -55,7 +60,8 @@ const transectionService = {
     approvedTransection,
     rejectTransection,
     updateTransaction,
-    myTransactionHistoy
+    myTransactionHistoy,
+    singleTransectionInfo
 };
 
 module.exports = transectionService;
