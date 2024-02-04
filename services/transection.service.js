@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("../model");
 const Transection = db.transection;
+const Deposite = db.bankDeposite;
 require("dotenv").config();
 const { QueryTypes } = require('sequelize');
 
@@ -34,6 +35,8 @@ const insertTransection = async(transection,userId,tourId)=>{
 
   const updateTransaction = async(transactionId,status)=>{
     // console.log(status,transactionId,"st");
+    const transectionInfo = await Transection.findOne({id: transectionService});
+    console.log(typeof transectionInfo);
     const result = await Transection.update(
       { status: status },
       { where: { id: transactionId } }
