@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const BankAccounts = sequelize.define("bank_accounts", {
     accountNo: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER.UNSIGNED,
     },
     cardNo: {
       type: DataTypes.INTEGER,

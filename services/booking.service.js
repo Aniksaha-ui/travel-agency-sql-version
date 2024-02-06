@@ -37,7 +37,7 @@ const insertIntoHotel = async(tourId,userId,bookingId,hotelInfo)=>{
     }
 
     const fetchUserHistoryById =async (userId)=>{
-       const tourInformation = await db.sequelize.query(`SELECT tours.tour_name,booking_costings.total_costing,bookings.seat FROM bookings,tours,booking_costings WHERE bookings.tourId = tours.id AND bookings.id = booking_costings.tourId AND bookings.userId=${userId}`
+       const tourInformation = await db.sequelize.query(`SELECT tours.tour_name,booking_costings.total_costing,booking_costings.hotel_costing,booking_costings.tour_costing,bookings.seat FROM bookings,tours,booking_costings WHERE bookings.tourId = tours.id AND bookings.id = booking_costings.tourId AND bookings.userId=${userId}`
              , { type: QueryTypes.SELECT });
       return tourInformation;
     }
