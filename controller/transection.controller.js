@@ -34,7 +34,7 @@ const e = require("express");
     try{
       const response = responseFormat;
       let query;
-      const result = await transectionService.pendingTransection();
+      const result = await transectionService.approvedTransection();
       if(result.length>0){
         res.send({isExecute: true, message: "Transection Data",data:result});
       }
