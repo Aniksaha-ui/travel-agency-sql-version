@@ -15,15 +15,15 @@ const insertIntoBookingPerson = async (person,bookingId,tourId,userId) => {
   console.log('Inserted IDs:', insertedIds);
 };
 
-const insertIntoHotel = async(tourId,userId,bookingId,hotelInfo)=>{
-    const bookingInfo = {
-        ...hotelInfo,
-        tourId,
-        bookingId,
-        userId
-      }
-      const createdRecord = await BookingHotel.create(bookingInfo);
-    }
+    const insertIntoHotel = async(tourId,userId,bookingId,hotelInfo)=>{
+        const bookingInfo = {
+            ...hotelInfo,
+            tourId,
+            bookingId,
+            userId
+          }
+          const createdRecord = await BookingHotel.create(bookingInfo);
+        }
 
 
     const insertTotalCosting = async(tourId,userId,bookingId,totalCosting)=>{

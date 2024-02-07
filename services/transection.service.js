@@ -51,12 +51,40 @@ const updateTransaction = async (transactionId, status) => {
   return result;
 };
 
+<<<<<<< HEAD
 /** find specific userId transaction history */
 const myTransactionHistoy = async (userId) => {
   const result = await Transection.findAll({ where: { userId: userId } });
   return result;
   1;
 };
+=======
+  const rejectTransection = async () =>{
+    const result = await db.sequelize.query("SELECT * FROM `transections` WHERE STATUS = 'r'", { type: QueryTypes.SELECT });
+    return result;
+    }
+
+  const updateTransaction = async(transactionId,status)=>{
+    const transectionInfo = await Transection.findOne({id: transectionService});
+    const result = await Transection.update(
+      { status: status },
+      { where: { id: transactionId } }
+    );
+    return result;
+  }
+
+  /** find specific userId transaction history */
+  const myTransactionHistoy = async(userId)=>{
+    const result = await Transection.findAll({ where: { userId: userId } })
+    return result;
+1  }
+
+ /**** find single transection  ***************/
+    const singleTransectionInfo = async(transectionId) =>{
+      const result = await Transection.findAll({ where: { id: transectionId } })
+      return result;
+    }
+>>>>>>> 399276e (controller changed)
 
 /**** find single transection  ***************/
 const singleTransectionInfo = async (transectionId) => {

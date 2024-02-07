@@ -63,19 +63,21 @@ const e = require("express");
   );
 
 
-  /** update transaction */
+  /** update transaction and confirm booking*/
   router.post("/update",auth.authenticationToken,checkRole.checkRole,async(req,res)=>{
     try{
       const status = req.body.status;
       const transactionId = req.body.id;
+      const transactionInfo = await transectionService.singleTransectionInfo(transactionId);
       const result = await transectionService.updateTransaction(transactionId,status);
+      console.log(transactionInfo);
      if(result[0]===1){
       res.send({isExecute: true, message: "Transaction Information Updated"});
      }
      res.send({isExecute: true, message: "No data found"});
   
     }catch(err){
-     res.send({isExecute: false, message: "Internal Server Error",data:result});
+     res.send({isExecute: false, message: "Internal Server Error"});
 
     }
   })
