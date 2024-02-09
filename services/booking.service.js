@@ -1,10 +1,17 @@
 const express = require("express");
 const db = require("../model");
 const BookingPerson = db.bookingPersons;
+const Bookings = db.bookings;
 const BookingHotel = db.bookingHotel;
 const BookingCosting = db.bookingCosting;
 require("dotenv").config();
 const { QueryTypes } = require('sequelize');
+
+
+const fetchAllBookingList = async() =>{
+  const bookings = await Bookings.findAll({});
+  return bookings;
+}
 
 const insertIntoBookingPerson = async (person,bookingId,tourId,userId) => {
   const personList = person.map(person=>{
@@ -57,12 +64,22 @@ const insertIntoBookingPerson = async (person,bookingId,tourId,userId) => {
       return data;
     }
 
+    const fetchBookingsByTourId = async (tourId) => {
+      const bookingInfoByTourId = await db.sequelize.query(`SELECT users.name AS username,bookings.* FROM users,bookings WHERE users.id = bookings.tourId AND tourId=${tourId} `
+      ,{ type: QueryTypes.SELECT });
+      return bookingInfoByTourId;
+    };
+
+
+
 const bookingService = {
      insertIntoBookingPerson,
      insertIntoHotel,
      insertTotalCosting,
      fetchUserHistoryById,
-     fetchUserTourDetails
+     fetchUserTourDetails,
+     fetchAllBookingList,
+     fetchBookingsByTourId,
 };
 
 module.exports = bookingService;

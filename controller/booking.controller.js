@@ -8,6 +8,21 @@ const responseFormat = require("../common/response");
 const bookingService = require("../services/booking.service");
 const e = require("express");
 
+  /**All booking list */
+
+  router.get("/",auth.authenticationToken,checkRole.checkRoleForUser, async (req, res) => {
+    try{  
+      const result = await bookingService.fetchAllBookingList();
+      if(result.length>0){
+        res.status(200).json({isExecute: true, message: "All Bookings",data:result});
+      }
+      res.status(200).json({isExecute: true, message: "No data found",data:result});
+    }catch(err){
+        console.log(err)
+    }
+   }
+  );
+
   /** booking a tour */
   router.post("/my-tour-history",auth.authenticationToken,checkRole.checkRoleForUser, async (req, res) => {
     try{  
@@ -40,8 +55,21 @@ const e = require("express");
   );
 
 
+  router.get("/:tourId",auth.authenticationToken,checkRole.checkRoleForUser, async (req, res) => {
+    try{  
+      const tourId = req.params.tourId ? req.params.tourId : '';
+      const result = await bookingService.fetchBookingsByTourId(tourId);
+      if(result.length>0){
+        res.status(200).json({isExecute: true, message: "Booking Details by tourId",data:result});
+      }
+      res.status(200).json({isExecute: true, message: "No data found",data:result});
+    }catch(err){
+        console.log(err)
+    }
+   }
+  );
 
-
+   
 
 
 

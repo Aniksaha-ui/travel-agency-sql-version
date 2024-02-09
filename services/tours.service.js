@@ -75,6 +75,13 @@ const singleTourProfit = async (tourId) => {
   return result;
 };
 
+const fetchTourWiseSeatSell = async() =>{
+  const sellingInformation = await db.sequelize.query(`SELECT tours.tour_name as TourName,SUM(seat) AS selling_seat FROM bookings,tours WHERE bookings.tourId = tours.id GROUP BY(TourName);`
+  ,{ type: QueryTypes.SELECT });
+  console.log(sellingInformation)
+  return sellingInformation;
+}
+
 const searchByName = async (data) => {
   const searchTerm = `%${data.tourName}%`;
   const result = await db.sequelize.query(
@@ -115,6 +122,7 @@ const tourService = {
   updateTourSeat,
   singleTourProfit,
   fetchTrasectionByTour,
+  fetchTourWiseSeatSell
 };
 
 module.exports = tourService;
