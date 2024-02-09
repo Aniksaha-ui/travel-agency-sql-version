@@ -150,6 +150,25 @@ router.get(
   }
 );
 
+router.get(
+  "/selling-seat",
+  auth.authenticationToken,
+  checkRole.checkRoleForUser,
+  async (req, res) => {
+    try {
+      console.log("hitted");
+      const result = await tourService.fetchTourWiseSeatSell();
+      console.log(result)
+      if (result.length > 0) {
+        res.send({ isExecute: true, message: "Search Result", data: result });
+      }
+      res.send({ isExecute: true, message: "No data found", data: result });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 /** tour search */
 router.post(
   "/search",
