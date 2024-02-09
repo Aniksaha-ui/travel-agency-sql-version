@@ -1,0 +1,16 @@
+- All bookings (dome)
+- tour wise booking(done)
+- Tour wise booking persons  xxxx
+- total seat booking of a tour (done)
+- Hotel
+  - Hotelwise Commision percentage setup
+  - Hotel Commision collect
+  - Hotelwise Due
+- Bank Deposite
+  - add new field purpose
+  - When accept payment(transection) the value will be inserted
+- Bank Withdraw
+  - Bank withdraw
+  - Bank withdraw purpose and amount
+  - update total amount
+- Tourwise costing report - details of every sector - food,travel
