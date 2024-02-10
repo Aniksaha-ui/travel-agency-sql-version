@@ -19,7 +19,6 @@ const insertIntoBookingPerson = async (person,bookingId,tourId,userId) => {
   });
   const bookingPersons = await BookingPerson.bulkCreate(personList);
   const insertedIds = bookingPersons.map(record => record.id);
-  console.log('Inserted IDs:', insertedIds);
 };
 
     const insertIntoHotel = async(tourId,userId,bookingId,hotelInfo)=>{
