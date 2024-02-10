@@ -13,7 +13,6 @@ const insertTransection = async (transection, userId, tourId) => {
     status: "p",
   };
   const createdRecord = await Transection.create(transectionInfo);
-  console.log(createdRecord);
 };
 
 const pendingTransection = async () => {
@@ -61,6 +60,7 @@ const myTransactionHistoy = async (userId) => {
 /**** find single transection  ***************/
 const singleTransectionInfo = async (transectionId) => {
   const result = await Transection.findAll({ where: { id: transectionId } });
+  console.log(result,"result");
   return result;
 };
 

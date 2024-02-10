@@ -9,6 +9,7 @@ const responseFormat = require("../common/response");
 const tourService = require("../services/tours.service");
 const bookingService = require("../services/booking.service");
 const transectionService = require("../services/transection.service");
+const depositeService = require("../services/deposit.service");
 const e = require("express");
 
   /** booking a tour */
@@ -69,8 +70,18 @@ const e = require("express");
       const status = req.body.status;
       const transactionId = req.body.id;
       const transactionInfo = await transectionService.singleTransectionInfo(transactionId);
+      
+      const bankDeposit = {
+        accountInfoId: transactionInfo[0].bankname,
+        customer_card_no : transactionInfo[0].cardNo,
+        amount : transactionInfo[0].amount,
+        remarks : req.body.remarks 
+      }
+
+      const storeDeposit = await depositeService.insertNewDeposit(bankDeposit);
+
       const result = await transectionService.updateTransaction(transactionId,status);
-      console.log(transactionInfo);
+    
      if(result[0]===1){
       res.send({isExecute: true, message: "Transaction Information Updated"});
      }

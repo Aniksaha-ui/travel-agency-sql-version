@@ -18,7 +18,7 @@ const fetchAllAccount = async () => {
 
 /** fetch bankname */
 const fetchBankName = async () => {
-  const accounts = await Account.findAll({ attributes: ["id", "bankName"] });
+  const accounts = await Account.findAll({ attributes: ["id", "bankName","branch"] });
   return accounts;
 };
 

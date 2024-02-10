@@ -48,11 +48,7 @@ const updateToursById = async (id, data) => {};
 
 /** booking tour */
 const insertBooking = async (tour, userId, seat) => {
-  const tourInfo = {
-    ...tour,
-    userId,
-    seat,
-  };
+  const tourInfo = {...tour,userId,seat};
   const createdRecord = await Booking.create(tourInfo);
   const lastInsertedId = createdRecord.id;
   return lastInsertedId;
@@ -78,7 +74,7 @@ const singleTourProfit = async (tourId) => {
 const fetchTourWiseSeatSell = async() =>{
   const sellingInformation = await db.sequelize.query(`SELECT tours.tour_name as TourName,SUM(seat) AS selling_seat FROM bookings,tours WHERE bookings.tourId = tours.id GROUP BY(TourName);`
   ,{ type: QueryTypes.SELECT });
-  console.log(sellingInformation)
+
   return sellingInformation;
 }
 

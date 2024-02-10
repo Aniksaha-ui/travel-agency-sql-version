@@ -14,3 +14,20 @@
   - Bank withdraw purpose and amount
   - update total amount
 - Tourwise costing report - details of every sector - food,travel
+
+
+hotel
+ - commision setup for each hotel
+ - Commision collect (add deposit)
+ - Commision due  
+Tour
+ - Tourwise costing report and process
+ - Review 
+ Transaction
+ - When transaction done must have to deposite amount
+ -Withdraw amount and useage
+ 
+ Review 
+ - Tour Review
+ - Guide Review
+ - Report of Tour and Guide tourwise
