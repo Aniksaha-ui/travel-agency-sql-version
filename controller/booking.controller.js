@@ -44,7 +44,7 @@ const e = require("express");
       const tourId = req.body.tourId ? req.body.tourId : '';
       const bookingId = req.body.bookingId ? req.body.bookingId : '';
       const result = await bookingService.fetchUserTourDetails(userId,tourId,bookingId);
-      if(result.length>0){
+      if(result){
         res.status(200).json({isExecute: true, message: "Information of tour history",data:result});
       }
       res.status(200).json({isExecute: true, message: "No data found",data:result});

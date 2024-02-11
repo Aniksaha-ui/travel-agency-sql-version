@@ -50,7 +50,7 @@ const insertIntoBookingPerson = async (person,bookingId,tourId,userId) => {
 
 
     const fetchUserTourDetails = async(userId,tourId,bookingId)=>{
-      const tourInformation = await db.sequelize.query(`SELECT tours.tour_name,tours.image,tours.starting_date,tours.end_date,tours.day,tours.status,booking_costings.total_costing,bookings.seat,booking_costings.hotel_costing,booking_costings.tour_costing,bookings.cost*bookings.seat as total_tour_costing,booking_costings.total_costing FROM bookings,tours,booking_costings WHERE bookings.tourId = tours.id AND bookings.tourId = booking_costings.tourId AND bookings.userId=${userId} AND bookings.tourId=${tourId} AND bookings.id=${bookingId}`
+      const tourInformation = await db.sequelize.query(`SELECT tours.tour_name,tours.image,tours.starting_date,tours.end_date,tours.day,tours.status,booking_costings.total_costing,bookings.seat,booking_costings.hotel_costing,booking_costings.tour_costing,bookings.cost*bookings.seat as total_tour_costing,booking_costings.total_costing FROM bookings,tours,booking_costings WHERE bookings.tourId = tours.id AND bookings.userId = booking_costings.userId AND bookings.userId=${userId} AND bookings.tourId=${tourId} AND bookings.id=${bookingId}`
       ,{ type: QueryTypes.SELECT });
 
       const hotelInformation = await db.sequelize.query(`SELECT booking_hotels.hotelId,booking_hotels.hotelName,booking_hotels.cost,hotels.hotel_type,hotels.childernSeat,hotels.adultSeat,hotels.totalSeat FROM booking_hotels,hotels WHERE booking_hotels.hotelId = hotels.id AND booking_hotels.tourId=${tourId} AND booking_hotels.bookingId=${bookingId} AND booking_hotels.userId=${userId}`
