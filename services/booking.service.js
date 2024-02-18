@@ -9,7 +9,8 @@ const { QueryTypes } = require('sequelize');
 
 
 const fetchAllBookingList = async() =>{
-  const bookings = await Bookings.findAll({});
+  const bookings = await db.sequelize.query(`SELECT tours.tour_name AS tourName ,bookings.*,users.name,users.email FROM bookings,users,tours WHERE bookings.userId = users.id AND bookings.tourId = tours.id;`
+  ,{ type: QueryTypes.SELECT });
   return bookings;
 }
 
@@ -64,7 +65,7 @@ const insertIntoBookingPerson = async (person,bookingId,tourId,userId) => {
     }
 
     const fetchBookingsByTourId = async (tourId) => {
-      const bookingInfoByTourId = await db.sequelize.query(`SELECT users.name AS username,bookings.* FROM users,bookings WHERE users.id = bookings.tourId AND tourId=${tourId} `
+      const bookingInfoByTourId = await db.sequelize.query(`SELECT users.name AS username,bookings.* FROM users,bookings WHERE users.id = bookings.userId AND tourId=${tourId} `
       ,{ type: QueryTypes.SELECT });
       return bookingInfoByTourId;
     };
