@@ -40,9 +40,7 @@ const rejectTransection = async () => {
 };
 
 const updateTransaction = async (transactionId, status) => {
-  // console.log(status,transactionId,"st");
   const transectionInfo = await Transection.findOne({ id: transectionService });
-  console.log(typeof transectionInfo);
   const result = await Transection.update(
     { status: status },
     { where: { id: transactionId } }

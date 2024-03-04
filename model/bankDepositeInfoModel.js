@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       amount: {
         type: DataTypes.STRING,
       },
+      purpose:{
+        type: DataTypes.STRING,
+      },
       remarks: {
         type: DataTypes.STRING,
       },
