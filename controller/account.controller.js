@@ -30,7 +30,7 @@ router.post(
       } else {
         response.data = data;
         response.isExecute = true;
-        response.message = `${data.account_name} can not be ${data.action}`;
+        response.message = `Bank Information added`;
         res.send(response);
       }
     } catch (err) {

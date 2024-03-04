@@ -115,10 +115,7 @@ router.post(
         userId,
         tour.tourId
       );
-      const updateTourSeat = await tourService.updateTourSeat(
-        tour.tourId,
-        seat
-      );
+    
       res.send({ isExecute: true, message: "Thanks for booking", data: {} });
     } catch (err) {
       console.log(err);

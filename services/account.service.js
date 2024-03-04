@@ -5,9 +5,15 @@ require("dotenv").config();
 const { QueryTypes } = require("sequelize");
 
 /** new account */
-const newAccount = async (data) => {
-  const createdRecord = await Account.create(data);
-  return createdRecord;
+const newAccount = async (accounts) => {
+    const accountList = accounts.map((account) => {
+      return { ...account };
+    });
+    const accountCreate = await Account.bulkCreate(accountList);
+    const insertedIds = accountCreate.map((record) => record.id);
+    return insertedIds;
+  // const createdRecord = await Account.create(data);
+  // return createdRecord;
 };
 
 /** fetch all accounts */

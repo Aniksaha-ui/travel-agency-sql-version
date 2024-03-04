@@ -75,10 +75,13 @@ const e = require("express");
         accountInfoId: transactionInfo[0].bankname,
         customer_card_no : transactionInfo[0].cardNo,
         amount : transactionInfo[0].amount,
-        remarks : req.body.remarks 
+        remarks : req.body.remarks,
+        purpose : "tour" 
       }
 
-      const storeDeposit = await depositeService.insertNewDeposit(bankDeposit);
+      if(status!=='r'){
+        const storeDeposit = await depositeService.insertNewDeposit(bankDeposit);
+      }
 
       const result = await transectionService.updateTransaction(transactionId,status);
     
@@ -88,6 +91,7 @@ const e = require("express");
      res.send({isExecute: true, message: "No data found"});
   
     }catch(err){
+      console.log(err);
      res.send({isExecute: false, message: "Internal Server Error"});
 
     }
