@@ -31,3 +31,11 @@ Tour
  - Tour Review
  - Guide Review
  - Report of Tour and Guide tourwise
+
+
+
+
+currentBatchNo(id,batch_no,tourId,status)
+completedTours(id,tourId,batchId,date)
+booking(currentBatchId) +
+
