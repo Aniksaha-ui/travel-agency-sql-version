@@ -9,6 +9,7 @@ const dashboardController = require("./controller/dashboard.controller");
 const hotelController = require("./controller/hotel.controller");
 const bookingController = require("./controller/booking.controller");
 const accountController = require("./controller/account.controller");
+const batchController = require("./controller/currentBatch.controller");
 const app = express();
 
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -44,4 +45,5 @@ app.use("/dashboard", dashboardController);
 app.use("/hotel", hotelController);
 app.use("/booking", bookingController);
 app.use("/account", accountController);
+app.use("/batch", batchController);
 module.exports = app;
