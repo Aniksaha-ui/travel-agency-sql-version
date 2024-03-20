@@ -39,3 +39,16 @@ currentBatchNo(id,batch_no,tourId,status)
 completedTours(id,tourId,batchId,date)
 booking(currentBatchId) +
 
+
+
+
+
+
+Learning 
+Model.findAll({
+  attributes: { include: ['id'] }
+});
+
+Model.findAll({
+  attributes: { exclude: ['createdAt'] }
+});

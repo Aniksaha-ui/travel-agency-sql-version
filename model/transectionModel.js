@@ -6,6 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     tourId:{
       type: DataTypes.INTEGER
     },
+    batchId:{
+      type: DataTypes.INTEGER
+    },
     cardNo: {
         type: DataTypes.STRING
       },

@@ -42,11 +42,17 @@ const updateBatch = async (batchId, status) => {
     return result;
   };
 
+
+  const updateSeat = async(tourId,batchId)=>{
+    return true;
+  }
+
 const currentBatchService = {
   fetchAllActiveBatch,
   fetchBatchId,
   insertNewBatch,
   deleteBatchById,
   updateBatch,
+  updateSeat
 };
 module.exports = currentBatchService;
