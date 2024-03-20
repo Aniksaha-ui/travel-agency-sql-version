@@ -20,13 +20,13 @@ const insertNewBatch = async (data) => {
 
 /** fetch batch by id*/
 const fetchBatchId = async (batchId) => {
-    const hotel = await CurrentBatch.findAll({
+    const batch = await CurrentBatch.findAll({
       where: { id: batchId },
     });
-    return hotel;
+    return batch;
   };
 
-/** delete hotel  */
+/** delete batch  */
 const deleteBatchById = async (id) => {
   const result = await CurrentBatch.destroy({ where: { id: id } });
   return result;
