@@ -2,7 +2,7 @@ const dbConfig = require("../config/dbConfig.js");
 
 const { Sequelize, DataTypes } = require("sequelize");
 
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, "", {
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, "root", {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   operatorsAliases: false,
@@ -41,6 +41,7 @@ db.hotel = require("./HotelModel.js")(sequelize, DataTypes);
 db.bankAccounts = require("./bankAccountsModel.js")(sequelize, DataTypes);
 db.bankDeposite = require("./bankDepositeInfoModel.js")(sequelize, DataTypes);
 db.currentBatch = require("./CurrentBatch.js")(sequelize, DataTypes);
+db.completedTours = require("./completedTours.js")(sequelize, DataTypes);
 
 // db.reviews = require("./reviewModel.js")(sequelize, DataTypes);
 
