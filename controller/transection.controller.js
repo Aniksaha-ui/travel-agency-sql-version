@@ -82,7 +82,7 @@ const e = require("express");
 
       if(status!=='r'){
         const storeDeposit = await depositeService.insertNewDeposit(bankDeposit);
-        const updateSeat = await batchService.updateSeat(id,batchId);
+        const updateSeat = await batchService.updateSeat(batchId,transactionInfo[0].seat);
       }
 
       const result = await transectionService.updateTransaction(transactionId,status);
@@ -94,7 +94,7 @@ const e = require("express");
   
     }catch(err){
       console.log(err);
-     res.send({isExecute: false, message: "Internal Server Error"});
+     res.send({isExecute: false, message: err});
 
     }
   })

@@ -43,8 +43,12 @@ const updateBatch = async (batchId, status) => {
   };
 
 
-  const updateSeat = async(tourId,batchId)=>{
-    return true;
+  const updateSeat = async(batchId,seat)=>{
+    let updateSeat = await CurrentBatch.decrement(
+      { available_seat: seat },
+      { where: { batch_no: batchId }}
+    );
+    return updateSeat;
   }
 
 const currentBatchService = {
