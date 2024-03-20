@@ -109,7 +109,8 @@ router.post("/booking",auth.authenticationToken,checkRole.checkRoleForUser,async
       const insertIntoTransection = await transectionService.insertTransection(
         transection,
         userId,
-        tour.tourId
+        tour.tourId,
+        seat
       );
     
       res.send({ isExecute: true, message: "Thanks for booking", data: {} });

@@ -30,6 +30,9 @@ module.exports = (sequelize, DataTypes) => {
       amount:{
         type: DataTypes.STRING
       },
+      seat:{
+        type: DataTypes.INTEGER
+      },
       status: {
         type: DataTypes.STRING,
         default: "P"

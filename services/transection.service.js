@@ -5,11 +5,12 @@ const Deposite = db.bankDeposite;
 require("dotenv").config();
 const { QueryTypes } = require("sequelize");
 
-const insertTransection = async (transection, userId, tourId) => {
+const insertTransection = async (transection, userId, tourId,seat) => {
   const transectionInfo = {
     ...transection,
     userId,
     tourId,
+    seat,
     status: "p",
   };
   const createdRecord = await Transection.create(transectionInfo);
