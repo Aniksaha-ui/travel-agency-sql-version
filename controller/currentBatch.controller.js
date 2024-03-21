@@ -8,10 +8,23 @@ const responseFormat = require("../common/response");
 const currentBatchService = require("../services/currentBatch.service");
 const e = require("express");
 
+  /**Get All Information */
+  router.get("/",auth.authenticationToken,checkRole.checkRoleForUser, async (req, res) => {
+      try{
+          const result = await currentBatchService.fetchAllBatch();
+          if(result.length > 0){
+            res.status(200).json({isExecute: true, message: "Data retrived successfully",data: result});
+          }
+          res.status(200).json({isExecute: true, message: "No data found", data: []})
+     }catch(err){
+        res.status(500).json({isExecute: false,message: "Internal Server Error"})
+      }
+  });
+
   /**All current batch list */
   router.post("/active",auth.authenticationToken,checkRole.checkRoleForUser, async (req, res) => {
     try{  
-      const tourId = req.tourId;
+      const tourId = req.body.tourId;
       const result = await currentBatchService.fetchAllActiveBatch(tourId);
       if(result.length>0){
         res.status(200).json({isExecute: true, message: "All Active batch",data:result});

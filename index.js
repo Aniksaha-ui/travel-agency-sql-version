@@ -10,10 +10,12 @@ const hotelController = require("./controller/hotel.controller");
 const bookingController = require("./controller/booking.controller");
 const accountController = require("./controller/account.controller");
 const batchController = require("./controller/currentBatch.controller");
+const depositeController = require("./controller/deposite.controller");
 const app = express();
 
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const depositeService = require("./services/deposit.service");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -46,4 +48,5 @@ app.use("/hotel", hotelController);
 app.use("/booking", bookingController);
 app.use("/account", accountController);
 app.use("/batch", batchController);
+app.use("/deposite",depositeController)
 module.exports = app;

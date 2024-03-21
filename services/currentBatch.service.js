@@ -5,6 +5,12 @@ require("dotenv").config();
 const { QueryTypes } = require("sequelize");
 const CurrentBatch = db.currentBatch;
 
+
+const fetchAllBatch = async (tourId) => {
+  const currentBatch = await CurrentBatch.findAll({});
+  return currentBatch;
+};
+
 const fetchAllActiveBatch = async (tourId) => {
   const currentBatch = await CurrentBatch.findAll({
     where: { status: "a", tourId: tourId },
@@ -43,12 +49,8 @@ const updateBatch = async (batchId, status) => {
   };
 
 
-  const updateSeat = async(batchId,seat)=>{
-    let updateSeat = await CurrentBatch.decrement(
-      { available_seat: seat },
-      { where: { batch_no: batchId }}
-    );
-    return updateSeat;
+  const updateSeat = async(tourId,batchId)=>{
+    return true;
   }
 
 const currentBatchService = {
@@ -57,6 +59,7 @@ const currentBatchService = {
   insertNewBatch,
   deleteBatchById,
   updateBatch,
-  updateSeat
+  updateSeat,
+  fetchAllBatch
 };
 module.exports = currentBatchService;
