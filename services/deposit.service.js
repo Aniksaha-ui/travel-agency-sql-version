@@ -35,8 +35,6 @@ const insertNewDeposit = async(data)=>{
   return hotel;
  }
 
-
-
 const depositeService = {
   insertNewDeposit,
   fetchAllDeposite,
