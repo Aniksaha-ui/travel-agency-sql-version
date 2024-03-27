@@ -12,11 +12,7 @@ const transectionService = require("../services/transection.service");
 const e = require("express");
 
 /** get all tour and find by id */
-router.post(
-  "/",
-  auth.authenticationToken,
-  checkRole.checkRoleForUser,
-  async (req, res) => {
+router.post("/",auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
     try {
       const data = req.body;
       const response = responseFormat;
@@ -41,11 +37,7 @@ router.post(
 /** get all tour end*/
 
 /** Insert tour */
-router.post(
-  "/create",
-  auth.authenticationToken,
-  checkRole.checkRole,
-  async (req, res) => {
+router.post( "/create",auth.authenticationToken,checkRole.checkRole,async (req, res) => {
     try {
       const response = responseFormat;
       let query;
@@ -139,6 +131,29 @@ router.get("/profit", auth.authenticationToken,checkRole.checkRole,async (req, r
     }
   }
 );
+
+/** tourwise batchwise people */
+router.post("/people", auth.authenticationToken,checkRole.checkRole,async (req, res) => {
+  try {
+    const response = responseFormat;
+    let query;
+    const tourId = req.body.tourId;
+    const batchId = req.body.batchId;
+    const result = await tourService.tourBatchWisePersonInformation(tourId,batchId);
+    if (result.length > 0) {
+      res.send({
+        isExecute: true,
+        message: "People's Information",
+        data: result,
+      });
+    }
+    res.send({ isExecute: true, message: "No data found", data: result });
+  } catch (err) {
+    console.log(err);
+  }
+}
+);
+
 
 router.get("/selling-seat",auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
     try {

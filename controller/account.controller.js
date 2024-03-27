@@ -12,11 +12,7 @@ const e = require("express");
 const response = responseFormat;
 
 /** new account create */
-router.post(
-  "/create",
-  auth.authenticationToken,
-  checkRole.checkRole,
-  async (req, res) => {
+router.post("/create",auth.authenticationToken,checkRole.checkRole,async (req, res) => {
     try {
       let query;
       let data = req.body;
@@ -42,11 +38,7 @@ router.post(
 );
 
 /** get all account and find by id */
-router.post(
-  "/",
-  auth.authenticationToken,
-  checkRole.checkRoleForUser,
-  async (req, res) => {
+router.post("/",auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
     try {
       let query;
       query = await accountService.fetchAllAccount();
@@ -65,22 +57,15 @@ router.post(
       //for single and fetch all
     } catch (err) {
       // console.log(err);
-      res
-        .status(200)
-        .json({ isExecute: false, message: "Internal Server error" });
+      res.status(200).json({ isExecute: false, message: "Internal Server error" });
     }
   }
 );
 /** get all tour end*/
 
 /** get bankname */
-router.get(
-  "/banknames",
-  auth.authenticationToken,
-  checkRole.checkRoleForUser,
-  async (req, res) => {
+router.get("/banknames",  auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
     try {
-      console.log("if");
       let query;
       query = await accountService.fetchBankName();
       //for single and fetch all
@@ -95,7 +80,6 @@ router.get(
         response.message = "No Data Found";
         res.status(200).json(response);
       }
-      //for single and fetch all
     } catch (err) {
       console.log("else");
       res
@@ -106,11 +90,8 @@ router.get(
 );
 
 /** get single account */
-router.get(
-  "/:id",
-  auth.authenticationToken,
-  checkRole.checkRoleForUser,
-  async (req, res) => {
+router.get("/:id",auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
+
     try {
       const id = req.params.id;
       query = await accountService.fetchAccountById(id);
@@ -134,11 +115,7 @@ router.get(
 );
 
 /** delete account */
-router.delete(
-  "/:id",
-  auth.authenticationToken,
-  checkRole.checkRole,
-  async (req, res) => {
+router.delete("/:id",auth.authenticationToken,checkRole.checkRole,async (req, res) => {
     try {
       const id = req.params.id;
       query = await accountService.deleteaccountById(id);
