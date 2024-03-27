@@ -16,7 +16,7 @@ const insertNewDeposit = async(data)=>{
 }
 
  /** fetch all hotels */
- const fetchHotel = async() =>{
+ const fetchAllDeposite = async() =>{
   const hotels = await BankDeposit.findAll({});
   return hotels;
  }
@@ -35,13 +35,11 @@ const insertNewDeposit = async(data)=>{
   return hotel;
  }
 
-
-
 const depositeService = {
-  fetchHotelCommisionInformation,
   insertNewDeposit,
-  fetchHotel,
+  fetchAllDeposite,
   deleteHotelById,
-  fetchHotelById
+  fetchHotelById,
+  fetchHotelCommisionInformation,
 };
 module.exports = depositeService;

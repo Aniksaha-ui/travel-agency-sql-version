@@ -76,17 +76,13 @@ router.post(
 );
 
 /** booking a tour */
-router.post(
-  "/booking",
-  auth.authenticationToken,
-  checkRole.checkRoleForUser,
-  async (req, res) => {
+router.post("/booking",auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
     try {
       const response = responseFormat;
       let query;
       let data = req.body;
-      const { tour, person, seat, hotel, userId, transection } = data;
-      const lastInserted = await tourService.insertBooking(tour, userId, seat);
+      const { tour, person, seat, hotel, userId, transection, batchId } = data;
+      const lastInserted = await tourService.insertBooking(tour, userId, seat,batchId);
       const personInformation = await bookingService.insertIntoBookingPerson(
         person,
         lastInserted,
@@ -113,7 +109,8 @@ router.post(
       const insertIntoTransection = await transectionService.insertTransection(
         transection,
         userId,
-        tour.tourId
+        tour.tourId,
+        seat
       );
     
       res.send({ isExecute: true, message: "Thanks for booking", data: {} });
@@ -124,11 +121,7 @@ router.post(
 );
 
 /** tourwise profit report */
-router.get(
-  "/profit",
-  auth.authenticationToken,
-  checkRole.checkRole,
-  async (req, res) => {
+router.get("/profit", auth.authenticationToken,checkRole.checkRole,async (req, res) => {
     try {
       const response = responseFormat;
       let query;
@@ -147,11 +140,7 @@ router.get(
   }
 );
 
-router.get(
-  "/selling-seat",
-  auth.authenticationToken,
-  checkRole.checkRoleForUser,
-  async (req, res) => {
+router.get("/selling-seat",auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
     try {
       console.log("hitted");
       const result = await tourService.fetchTourWiseSeatSell();
@@ -167,11 +156,7 @@ router.get(
 );
 
 /** tour search */
-router.post(
-  "/search",
-  auth.authenticationToken,
-  checkRole.checkRoleForUser,
-  async (req, res) => {
+router.post("/search",auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
     try {
       const response = responseFormat;
       const data = {
@@ -190,42 +175,34 @@ router.post(
 );
 
 /** get single tour */
-router.get(
-  "/:id",
-  auth.authenticationToken,
-  checkRole.checkRoleForUser,
-  async (req, res) => {
-    try {
-      const response = responseFormat;
-      const id = req.params.id;
-      query = await tourService.fetchToursById(id);
-      let transections = await tourService.fetchTrasectionByTour(id);
+router.get("/:id",auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
+  try {
+    const response = responseFormat;
+    const id = req.params.id;
+    query = await tourService.fetchToursById(id);
+    let transections = await tourService.fetchTrasectionByTour(id);
 
-      if (query.length > 0) {
-        response.isExecute = true;
-        response.data = { tour: query, transections: transections };
-        response.message = "Data retrive successfully";
-        res.status(200).json(response);
-      } else {
-        response.isExecute = true;
-        response.data = [];
-        response.message = "No Data Found";
-        res.status(200).json(response);
-      }
-    } catch (err) {
-      res
-        .status(500)
-        .json({ isExecute: false, message: "Internal Server error" });
+    if (query.length > 0) {
+      response.isExecute = true;
+      response.data = { tour: query, transections: transections };
+      response.message = "Data retrive successfully";
+      res.status(200).json(response);
+    } else {
+      response.isExecute = true;
+      response.data = [];
+      response.message = "No Data Found";
+      res.status(200).json(response);
     }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ isExecute: false, message: "Internal Server error" });
   }
+}
 );
 
 /** delete tour */
-router.delete(
-  "/:id",
-  auth.authenticationToken,
-  checkRole.checkRole,
-  async (req, res) => {
+router.delete("/:id",auth.authenticationToken,checkRole.checkRole,async (req, res) => {
     try {
       const response = responseFormat;
       const id = req.params.id;
@@ -248,5 +225,31 @@ router.delete(
     }
   }
 );
+
+
+/**** get tour available seat */
+router.get("/get-available-seat/:id",auth.authenticationToken,checkRole.checkRoleForUser,async (req, res) => {
+  try {
+    const response = responseFormat;
+    const id = req.params.id;
+    query = await tourService.fetchToursAvailableSeatById(id);
+    if (query) {
+      response.isExecute = true;
+      response.data =  query ;
+      response.message = "Data retrive successfully";
+      res.status(200).json(response);
+    } else {
+      response.isExecute = true;
+      response.data = [];
+      response.message = "No Data Found";
+      res.status(200).json(response);
+    }
+  } catch (err) {
+    res.status(500).json({ isExecute: false, message: err });
+  }
+}
+);
+
+
 
 module.exports = router;

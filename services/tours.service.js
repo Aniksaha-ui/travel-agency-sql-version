@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("../model");
 const Tour = db.tour;
+const batchId = db.currentBatch;
 const Booking = db.bookings;
 const Transaction = db.transection;
 require("dotenv").config();
@@ -47,8 +48,8 @@ const deleteToursById = async (id) => {
 const updateToursById = async (id, data) => {};
 
 /** booking tour */
-const insertBooking = async (tour, userId, seat) => {
-  const tourInfo = {...tour,userId,seat};
+const insertBooking = async (tour, userId, seat,batchId) => {
+  const tourInfo = {...tour,userId,seat,batchId};
   const createdRecord = await Booking.create(tourInfo);
   const lastInsertedId = createdRecord.id;
   return lastInsertedId;
@@ -105,6 +106,16 @@ const updateTourSeat = async (tourId, seat) => {
   return transection;
 };
 
+ const fetchToursAvailableSeatById = async(tourId)=>{
+    
+    let availableSeatInformation = await Tour.findAll(
+      {where:{id: tourId},attributes: ['available_seat']
+    });
+
+    return availableSeatInformation;
+ } 
+
+
 const tourService = {
   fetchTours,
   fetchToursById,
@@ -118,7 +129,8 @@ const tourService = {
   updateTourSeat,
   singleTourProfit,
   fetchTrasectionByTour,
-  fetchTourWiseSeatSell
+  fetchTourWiseSeatSell,
+  fetchToursAvailableSeatById
 };
 
 module.exports = tourService;
