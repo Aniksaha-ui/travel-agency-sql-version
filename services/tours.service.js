@@ -116,6 +116,14 @@ const updateTourSeat = async (tourId, seat) => {
  } 
 
 
+ const tourBatchWisePersonInformation = async (tourId,batchId) => {
+  const result = await db.sequelize.query(
+    `SELECT bookings.batchId,booking_persons.name,booking_persons.address FROM bookings,booking_persons WHERE bookings.id = booking_persons.bookingId AND bookings.batchId=${batchId} AND bookings.tourId = ${tourId};`,
+    { type: QueryTypes.SELECT }
+  );
+  return result;
+};
+
 const tourService = {
   fetchTours,
   fetchToursById,
@@ -130,7 +138,8 @@ const tourService = {
   singleTourProfit,
   fetchTrasectionByTour,
   fetchTourWiseSeatSell,
-  fetchToursAvailableSeatById
+  fetchToursAvailableSeatById,
+  tourBatchWisePersonInformation
 };
 
 module.exports = tourService;
