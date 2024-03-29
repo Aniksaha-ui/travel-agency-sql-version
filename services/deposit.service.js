@@ -17,7 +17,7 @@ const insertNewDeposit = async(data)=>{
 
  /** fetch all hotels */
  const fetchAllDeposite = async() =>{
-  const hotels = await BankDeposit.findAll({});
+  const hotels = await db.sequelize.query("SELECT bank_deposits.*, bank_accounts.bankName FROM bank_deposits,bank_accounts WHERE bank_deposits.accountInfoId = bank_accounts.id;", { type: QueryTypes.SELECT });
   return hotels;
  }
 

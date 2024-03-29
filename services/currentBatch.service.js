@@ -51,8 +51,8 @@ const updateBatch = async (batchId, status) => {
 
   const updateSeat = async(batchId,seat)=>{
     let transection = await CurrentBatch.decrement(
-      { available_seat: seat },
-      { where: { batchId: batchId } }
+      { available_seat: seat }, 
+      { where: { batch_no: batchId } }
     );
     return transection;
   }
