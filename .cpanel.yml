@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/infirtlu/travel.infinitycodehubltd.com/
+    - /bin/cp * $DEPLOYPATH
+  
