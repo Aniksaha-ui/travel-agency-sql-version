@@ -7,7 +7,7 @@ const { QueryTypes } = require("sequelize");
 /** new hotel commision added */
 const newHotelCommisionDefaultAccount = async (hotelCommision) => {
     const hotelCommisionList = hotelCommision.map((hotelCommision) => {
-      return { ...hotelCommision };
+      return { ...parseInt(hotelCommision.hotelId),...parseInt(hotelCommision.dueAmount) };
     });
     const hotelCommisionCreate = await HotelCommision.bulkCreate(hotelCommisionList);
     const insertedIds = hotelCommisionCreate.map((record) => record.id);
@@ -16,7 +16,11 @@ const newHotelCommisionDefaultAccount = async (hotelCommision) => {
 
 /** fetch all accounts */
 const fetchAllCommisionDefaultAccount = async () => {
-  const commisionAccounts = await HotelCommision.findAll({});
+  
+  const commisionAccounts = await db.sequelize.query(
+    "SELECT hotels.hotel_name,hotel_commisions.* FROM hotels,hotel_commisions WHERE hotels.id = hotel_commisions.hotelId;",
+    { type: QueryTypes.SELECT }
+  );
   return commisionAccounts;
 };
 
