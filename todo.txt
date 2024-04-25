@@ -1,54 +1,37 @@
-- All bookings (dome)
-- tour wise booking(done)
-- Tour wise booking persons  xxxx
-- total seat booking of a tour (done)
-- Hotel
-  - Hotelwise Commision percentage setup
-  - Hotel Commision collect
-  - Hotelwise Due
-- Bank Deposite
-  - add new field purpose
-  - When accept payment(transection) the value will be inserted
-- Bank Withdraw
-  - Bank withdraw
-  - Bank withdraw purpose and amount
-  - update total amount
-- Tourwise costing report - details of every sector - food,travel
+                            Hotel Commission setup
 
 
-hotel
- - commision setup for each hotel
- - Commision collect (add deposit)
- - Commision due  
-Tour
- - Tourwise costing report and process
- - Review 
- Transaction
- - When transaction done must have to deposite amount
- -Withdraw amount and useage
+setup_hotel_default_account_setup(id,accountId,cardNo)
+hotel_commision(id,hotelId,dueAmount)
+hotel_commision_details(id,hotelId,commisionId,tourId,amount,date,isCollected,isBankTransfer)
+
+- Crud operation 
+  setup_hotel_default_account_setup,
+  hotel_commision
+  and hotel_commision_details
+
+- get commission due amount of each hotel
+- get commission details by id
+
+- transfer to bank_deposite when click bank transfer
+
+  step 1: find default account 
+    from 
+    setup_hotel_default_account_setup and 
+    send to bank_deposite(purpose will be hotel commision)
  
- Review 
- - Tour Review
- - Guide Review
- - Report of Tour and Guide tourwise
+  step 2 : insert into bank_deposits(purpose will be "commision")
+  step 3 : update hotel_commision_details isCollected,isTransfer will be 1
+  step 4 : create a log to company_account_history
+ 
 
+ Operations
 
+  account_amount(id,bankname,existAmount)
+  company_account_history(id,accountId,type,purpose,status,date) type - 0 -> deposite, 1 -> withdraw
 
+    - amount will added when getcommision and getbooking
+    - amount will be sub when guide get money form account
 
-currentBatchNo(id,batch_no,tourId,status)
-completedTours(id,tourId,batchId,date)
-booking(currentBatchId) +
+Needed Api
 
-
-
-
-
-
-Learning 
-Model.findAll({
-  attributes: { include: ['id'] }
-});
-
-Model.findAll({
-  attributes: { exclude: ['createdAt'] }
-});
