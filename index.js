@@ -11,6 +11,7 @@ const bookingController = require("./controller/booking.controller");
 const accountController = require("./controller/account.controller");
 const batchController = require("./controller/currentBatch.controller");
 const depositeController = require("./controller/deposite.controller");
+const defaultCommisionAccountController = require("./controller/hotelCommisionDefaultAccount.controller");
 const app = express();
 
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -49,4 +50,5 @@ app.use("/booking", bookingController);
 app.use("/account", accountController);
 app.use("/batch", batchController);
 app.use("/deposite",depositeController)
+app.use("/defaultCommsionAccount",defaultCommisionAccountController)
 module.exports = app;
