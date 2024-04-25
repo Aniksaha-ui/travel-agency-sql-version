@@ -33,5 +33,5 @@ hotel_commision_details(id,hotelId,commisionId,tourId,amount,date,isCollected,is
     - amount will added when getcommision and getbooking
     - amount will be sub when guide get money form account
 
-Needed Api
+Needed Apiii
 
