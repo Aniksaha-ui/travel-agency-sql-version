@@ -19,7 +19,7 @@ const newHotelCommisionDefaultAccount = async (hotelCommisions) => {
 const fetchAllCommisionDefaultAccount = async () => {
   
   const commisionAccounts = await db.sequelize.query(
-    "SELECT hotels.hotel_name,hotel_commisions.* FROM hotels,hotel_commisions WHERE hotels.id = hotel_commisions.hotelId;",
+    "SELECT setup_hotel_default_account_setups.*,hotels.hotel_name FROM setup_hotel_default_account_setups,hotels WHERE hotels.id = setup_hotel_default_account_setups.hotelId",
     { type: QueryTypes.SELECT }
   );
   return commisionAccounts;
