@@ -1,13 +1,14 @@
 const express = require("express");
 const db = require("../model");
-const HotelCommision = db.hotelCommision;
+const HotelCommision = db.hotelDefaultAccountSettings;
 require("dotenv").config();
 const { QueryTypes } = require("sequelize");
 
 /** new hotel commision added */
-const newHotelCommisionDefaultAccount = async (hotelCommision) => {
-    const hotelCommisionList = hotelCommision.map((hotelCommision) => {
-      return { ...parseInt(hotelCommision.hotelId),...parseInt(hotelCommision.dueAmount) };
+const newHotelCommisionDefaultAccount = async (hotelCommisions) => {
+  console.log(hotelCommisions,"123")
+    const hotelCommisionList = hotelCommisions.map((hotelCommision) => {
+      return { ...hotelCommision };
     });
     const hotelCommisionCreate = await HotelCommision.bulkCreate(hotelCommisionList);
     const insertedIds = hotelCommisionCreate.map((record) => record.id);

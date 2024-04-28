@@ -16,8 +16,7 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole,async (req, r
     try {
       let query;
       let data = req.body;
-
-      query = hotelCommisionDefaultSevrice.newHotelCommisionDefaultAccount(data);
+      query = await hotelCommisionDefaultSevrice.newHotelCommisionDefaultAccount(data);
       if (query) {
         response.data = data;
         response.isExecute = true;
@@ -33,6 +32,7 @@ router.post("/create",auth.authenticationToken,checkRole.checkRole,async (req, r
       response.isExecute = false;
       response.message = err;
       res.send(response);
+      console.log(err)
     }
   }
 );
