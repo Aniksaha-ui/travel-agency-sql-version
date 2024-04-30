@@ -9,6 +9,8 @@ const responseFormat = require("../common/response");
 const tourService = require("../services/tours.service");
 const bookingService = require("../services/booking.service");
 const transectionService = require("../services/transection.service");
+const hotelCommisionService = require("../services/hotelCommision.service")
+const hotelCommisionDetailsService = require("../services/hotelCommisionDetails.service")
 const e = require("express");
 
 /** get all tour and find by id */
@@ -75,36 +77,17 @@ router.post("/booking",auth.authenticationToken,checkRole.checkRoleForUser,async
       let data = req.body;
       const { tour, person, seat, hotel, userId, transection, batchId } = data;
       const lastInserted = await tourService.insertBooking(tour, userId, seat,batchId);
-      const personInformation = await bookingService.insertIntoBookingPerson(
-        person,
-        lastInserted,
-        tour.tourId,
-        userId
-      );
-      const insertIntoHotel = await bookingService.insertIntoHotel(
-        tour.tourId,
-        userId,
-        lastInserted,
-        hotel
-      );
+      const personInformation = await bookingService.insertIntoBookingPerson(person,lastInserted,tour.tourId,userId);
+      const insertIntoHotel = await bookingService.insertIntoHotel(tour.tourId,userId,lastInserted,hotel);
       const totalCosting = {
         tour_costing: tour.cost,
         hotel_costing: hotel.cost,
         total_costing: parseInt(tour.cost) * seat + parseInt(hotel.cost),
       };
-      const insertIntoTotalCosting = await bookingService.insertTotalCosting(
-        tour.tourId,
-        userId,
-        lastInserted,
-        totalCosting
-      );
-      const insertIntoTransection = await transectionService.insertTransection(
-        transection,
-        userId,
-        tour.tourId,
-        seat
-      );
-    
+      const insertIntoTotalCosting = await bookingService.insertTotalCosting(tour.tourId,userId,lastInserted,totalCosting);
+      const insertIntoTransection = await transectionService.insertTransection(transection,userId,tour.tourId,seat);
+      const insertIntoHotelCommision = await hotelCommisionService.createHotelCommision(hotel,totalCosting)
+      const insertIntoHotelCommisionDetails = await hotelCommisionDetailsService.createHotelCommisionDetails(hotel.hotelId,insertIntoHotelCommision,tour.tourId,totalCosting.hotel_costing)
       res.send({ isExecute: true, message: "Thanks for booking", data: {} });
     } catch (err) {
       console.log(err);
